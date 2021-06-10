@@ -63,7 +63,6 @@ function appMenu()
 		print(resp)
 
 	end
-	term.setCursorPos(1,8)
 	print("type the name of the app to install: ")
 	input = read()
 	if input == quit then
