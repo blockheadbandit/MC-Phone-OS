@@ -67,3 +67,18 @@ basic real time date system
 The server is planned to have a chat room to allow users in minecraft to chat to each other over servers!!!!!
 
 The server also currently has basic error handling included this handling sends an error message to the user telling them to try later or contact a server admin.
+
+
+# Final notes
+
+This project is open source so feel free to take some of my code and alter it for use with whatever you want
+
+Small roadmap:
+
+Cross minecraft server messaging
+
+Uploading apps via phones
+
+Private messages
+
+Turtle Control using UUID given by server
