@@ -75,10 +75,10 @@ This project is open source so feel free to take some of my code and alter it fo
 
 Small roadmap:
 
-Cross minecraft server messaging
+Cross minecraft server messaging.
 
-Uploading apps via phones
+Uploading apps via phones.
 
-Private messages
+Private messages.
 
-Turtle Control using UUID given by server
+Turtle Control using UUID given by server.
