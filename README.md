@@ -25,6 +25,7 @@ server commands all start with 'request-' to show the server that it is a reques
 Current commands are request-ip , request-date , request-listapps , request-app+[appname].
 
 most of the commands are also used when accessing the menu for example: request-date is used for the date on the main menu and request-listapps is used for the app store.
+Command line functions for the client is a WIP so far commands only work for the web server
 
 
 # The Applications
