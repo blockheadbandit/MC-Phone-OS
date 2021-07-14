@@ -34,10 +34,6 @@ function menu()
 		appMenu()
 	end
 	if input == "3" then
-		term.clear()
-		term.setCursorPos(1,1)
-		print("W I P Come back later")
-		ender = read()
 		menu()
 	end
 	if input == "4" then
@@ -49,20 +45,44 @@ function menu()
 	end
 	
 end
+function sendmsg()
+	local input = read()
+end
+function getmsg()
+	local _, url, resp , isBin = os.pullEvent("websocket_message")
+	print(resp)
+end
+function message()
+	ws.send("request-msg")
+	term.clear()
+	term.setCursorPos(1,1)
+	local sendto = read()
+	ws.send("MSG_"..sendto)
+	local _, url, resp , isBin = os.pullEvent("websocket_message")
+	if resp == "CONNECTED" then
+		print("Connected to "..sendto)
+	end
+	if resp == "ERROR" then
+		print("There was an error please contact an admin if the problem persists")
+	end
+	paralell.waitForAny(sendmsg, getmsg)
+end
 
 function appMenu()
+	local apptable = {}
 	term.setCursorPos(1,1)
 	term.clear()
 	ws.send("request-listapps")
 	local index = 1
 	while true do
-		local _, url, resp , isBin = os.pullEvent("websocket_message")
-		if resp == "LISTEND" then
+		local _, url, response , isBin = os.pullEvent("websocket_message")
+		if response == "LISTEND" then
 			break
 		end
-		print(resp)
-
+		apptable[index] = response
+		index = index + 1
 	end
+	print(textutils.pagedTabulate(apptable))
 	print("type the name of the app to install: ")
 	input = read()
 	if input == quit then
@@ -70,10 +90,12 @@ function appMenu()
 	end
 	ws.send(string.format('request-app+%s', input))
 	local _, url, resp , isBin = os.pullEvent("websocket_message")
-	filepath = './Apps/'.. input
-	application = io.open(filepath,'w')
-	application:write(resp)
-	application:close()
+	if isBin then -- only writes if the server is sending binary data
+		filepath = './Apps/'.. input
+		application = io.open(filepath,'w')
+		application:write(resp)
+		application:close()
+	end
 	term.write(string.format('File is at [./Apps/%s]', input))
 	menu()
 end
@@ -106,7 +128,7 @@ function myApps()
 	if pause == "run" then
 		term.clear()
 		term.setCursorPos(1,1)
-		print(shell.execute("ls","./Apps"))
+		shell.execute("ls","./Apps")
 		print("Select program")
 		local programname = read()
 		shell.run("./Apps/"..programname)

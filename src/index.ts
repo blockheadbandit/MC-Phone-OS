@@ -22,7 +22,7 @@ wss.on('connection', async function connection(ws) {// code below happens every 
         fs.readdir("./apps", function (err: any, files: any[]) {// reads all the items in the /apps
             if (err) {
                 console.log('Unable to scan directory: ' + err); // log if error occurs
-                return ws.send("There was a problem try again later or contact the server admin."); // informs client of the problem
+                return ws.send("There was a problem try again later or contact the server admin if the problem persists."); // informs client of the problem
             }
             files.forEach(function (file) {
                 ws.send(`App[${index}]: ` + file); // sends each app name to the client -- this will only be used for the store
@@ -31,20 +31,23 @@ wss.on('connection', async function connection(ws) {// code below happens every 
             ws.send("LISTEND")
         });
       };
+      if (recv[1].includes('msg')){
+        console.log('message');
+      };
       if (recv[1].includes("app+") === true){// checks to see if the request is for an app
-        // download testapp
         var requestapp = recv[1].split('+', 2); // splits the request by the + so when requesting an app the request goes from 'app+Test.lua' to 'app', 'Test.lua'
         var appname = requestapp[1];
         var app = `./apps/${appname}`; // creates the pathname to the file in thiscase it will be './apps/Test.lua'
         try{
           fs.readFile(app, function(err, buffer){
-            ws.send(buffer); // sends a buffer of the content to the client where it is decoded and saved to a file
+            let bindat = base64ToArrayBuffer(buffer);
+            ws.send(bindat);
             if (err){
               console.log([id] + ':' + [err])
-              ws.send("try again later or contact a server admin."); // if the transfer reaches an error
+              ws.send("There was an error please try again later or contact a server admin if the problem persists."); // if the transfer reaches an error
           }});
       }catch (e){// catches an exception in the app name
-        ws.send("Error App either does not exist or was spelt wrongly"); // sends an error message to the client
+        ws.send("Error App either does not exist or was spelt wrongly, if problem persists please contact an admin"); // sends an error message to the client
       }};
     };
   });
@@ -53,3 +56,12 @@ wss.on('connection', async function connection(ws) {// code below happens every 
   });
 });
 // This program was made to be used on my personal minecraft server it is a phone system using computercraft all functions are managed by the websockets with the phone app being only a request sender
+function base64ToArrayBuffer(base64 : any) {
+  var binary_string = Buffer.from(base64, 'base64').toString('binary');
+  var len = binary_string.length;
+  var bytes = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
