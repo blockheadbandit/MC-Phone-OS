@@ -8,16 +8,16 @@ wss.on('connection', async function connection(ws) {// code below happens every 
   ws.on('message', function incoming(msg) {// code below happens when a client sends a message
     console.log(id, msg)// logs the message
     if (msg.toString("utf-8").includes("request")){ // converts the msg from raw data to a string using utf-8 and checks to see if it contains the request keyword
-      var recv = msg.toString('utf-8').split('-', 2); // creates a variable with the message split into two (message is sent from client with the format: request-<command>)
-      if (recv[1] === "ip"){// is the 2nd value of the message ip
+      var recv = msg.toString('utf-8').substring(msg.toString().indexOf('-') + 1); // splits the message after the - to get the command
+      if (recv === "ip"){// is the 2nd value of the message ip
         ws.send("PHONE:" + id); // sends the client their uuid
       };
-      if (recv[1] === "date"){// is the 2nd value of the message date
+      if (recv === "date"){// is the 2nd value of the message date
         var date = new Date(); // creates a new date with the current date
         var fulldate = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear(); // gets the date month and year and concatenates it to a string
         ws.send(fulldate); // sends the date to the client
       };
-      if (recv[1] === "listapps"){// is the 2nd value of the message listapps
+      if (recv === "listapps"){// is the 2nd value of the message listapps
         var index = 1
         fs.readdir("./apps", function (err: any, files: any[]) {// reads all the items in the /apps
             if (err) {
@@ -31,11 +31,11 @@ wss.on('connection', async function connection(ws) {// code below happens every 
             ws.send("LISTEND")
         });
       };
-      if (recv[1].includes('msg')){
+      if (recv.includes('msg')){
         console.log('message');
       };
-      if (recv[1].includes("app+") === true){// checks to see if the request is for an app
-        var requestapp = recv[1].split('+', 2); // splits the request by the + so when requesting an app the request goes from 'app+Test.lua' to 'app', 'Test.lua'
+      if (recv.includes("app+") === true){// checks to see if the request is for an app
+        var requestapp = recv.split('+', 2); // splits the request by the + so when requesting an app the request goes from 'app+Test.lua' to 'app', 'Test.lua'
         var appname = requestapp[1];
         var app = `./apps/${appname}`; // creates the pathname to the file in thiscase it will be './apps/Test.lua'
         try{

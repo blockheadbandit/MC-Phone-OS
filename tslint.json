@@ -4,7 +4,9 @@
     "no-console":false,
     "no-var-keyword":false,
     "prefer-const":false,
-    "only-arrow-functions":false
+    "only-arrow-functions":false,
+    "variable-name":false,
+    "noImplicitAny": false
   }
 
 }
