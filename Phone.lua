@@ -1,5 +1,5 @@
 
-local connectionURL = "192.168.1.13:3000"
+local connectionURL = "ENTER YOUR HOST DEVICE IP"
 local ws, err = http.websocket(connectionURL)
 local loop = false
 local pp = require "cc.pretty"
