@@ -1,5 +1,6 @@
 # THIS PROGRAM IS NO LONGER MAINTAINED AND MOST LIKELY WILL NOT WORK
-
+This was a small project I worked on in 2020 for a Minecraft server with my friends, this features a small "Operating System" for the CC:Tweaked phones, and a WebServer for features like application sharing
+I cannot remember the state of completion of the project and am archiving this just as an example of one of my past projects. again this was made in 2020 so there may be sloppy code thrown around in it since it was still fairly early into my experience.
 # Minecraft Phone OS readme
 
 This is an open source phone operating system However it is not an ordinary operating system.
