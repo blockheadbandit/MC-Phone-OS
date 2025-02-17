@@ -1,3 +1,5 @@
+# THIS PROGRAM IS NO LONGER MAINTAINED AND MOST LIKELY WILL NOT WORK
+
 # Minecraft Phone OS readme
 
 This is an open source phone operating system However it is not an ordinary operating system.
